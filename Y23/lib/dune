@@ -1,0 +1,3 @@
+(library
+ (name Y23)
+ (libraries core fmt))

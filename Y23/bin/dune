@@ -1,0 +1,4 @@
+(executable
+ (public_name Y23)
+ (name main)
+ (libraries Y23 fmt))
