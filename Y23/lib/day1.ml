@@ -1,16 +1,20 @@
 open Core
+open Utils
 
-let lines = Utils.read_lines "./inputs/day1"
+let lines = lines_of_file "./inputs/day1"
 
 let first =
-  Int.to_string
-  @@ List.fold lines ~init:0 ~f:(fun acc line ->
-    let chars = String.to_list line in
-    let numbers = List.filter chars ~f:Char.is_digit in
-    let number =
-      Int.of_string @@ Fmt.str "%c%c" (List.hd_exn numbers) (List.last_exn numbers)
-    in
-    acc + number)
+  lines
+  |> (0
+      >>. fun acc line ->
+      line
+      |> String.to_list
+      >>| Char.is_digit
+      >>@ String.of_char
+      |> str_of_f_and_l
+      |> Int.of_string
+      |> ( + ) acc)
+  |> Int.to_string
 ;;
 
 let second =
@@ -35,19 +39,19 @@ let second =
     ; "9", "9"
     ]
   in
-  let str_of_f_and_l li = Fmt.str "%s%s" (List.hd_exn li) (List.last_exn li) in
   lines
-  |> List.fold ~init:0 ~f:(fun acc line ->
-    String.length line
-    |> List.range 0
-    |> List.filter_map ~f:(fun pos ->
-      vals
-      |> List.find_map ~f:(fun (pattern, value) ->
-        match String.substr_index ~pos line ~pattern with
-        | Some match_pos when match_pos = pos -> Some value
-        | _ -> None))
-    |> str_of_f_and_l
-    |> Int.of_string
-    |> ( + ) acc)
+  |> (0
+      >>. fun acc line ->
+      0
+      |.. String.length line
+      >>~ (fun pos ->
+            vals
+            >>? fun (pattern, value) ->
+            match String.substr_index ~pos line ~pattern with
+            | Some match_pos when match_pos = pos -> Some value
+            | _ -> None)
+      |> str_of_f_and_l
+      |> Int.of_string
+      |> ( + ) acc)
   |> Int.to_string
 ;;
