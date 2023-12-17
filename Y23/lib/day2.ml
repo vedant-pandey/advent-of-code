@@ -14,7 +14,7 @@ let first =
               str #~> ','
               >>@ ( ~// )
               >>@ ( #~ ) ' '
-              >>@ ( !::* )
+              >>@ ( !::~ )
               >>@ ( |@| ) (function
                 | "red" -> reds
                 | "green" -> greens
@@ -31,7 +31,6 @@ let first =
       |> ( #?! ) "0"
       |> Int.of_string
       |> ( + ) acc)
-  |> Int.to_string
 ;;
 
 type cols =
@@ -59,5 +58,4 @@ let second =
         |> ((0, 0, 0) >>. fun acc value -> ( |-|| ) Int.max acc value)
         |> fun (a, b, c) -> a * b * c)
   |> (0 >>. fun acc value -> acc + value)
-  |> Int.to_string
 ;;

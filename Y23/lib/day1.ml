@@ -14,7 +14,6 @@ let first =
       |> str_of_f_and_l
       |> Int.of_string
       |> ( + ) acc)
-  |> Int.to_string
 ;;
 
 let second =
@@ -44,14 +43,13 @@ let second =
       >>. fun acc line ->
       0
       |.. String.length line
-      >>~ (fun pos ->
-            vals
-            >>? fun (pattern, value) ->
-            match String.substr_index ~pos line ~pattern with
-            | Some match_pos when match_pos = pos -> Some value
-            | _ -> None)
+      >>|@ (fun pos ->
+             vals
+             >>?@ fun (pattern, value) ->
+             match String.substr_index ~pos line ~pattern with
+             | Some match_pos when match_pos = pos -> Some value
+             | _ -> None)
       |> str_of_f_and_l
       |> Int.of_string
       |> ( + ) acc)
-  |> Int.to_string
 ;;
