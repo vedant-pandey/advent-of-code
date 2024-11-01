@@ -15,6 +15,11 @@
 
 (documentation https://url/to/documentation)
 
+ ;  (rule
+ ; (alias dev)
+ ; (action @all @fmt --auto-promote))
+
+
 (package
  (name Y23)
  (synopsis "A short synopsis")

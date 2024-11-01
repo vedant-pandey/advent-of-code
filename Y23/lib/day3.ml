@@ -1,6 +1,7 @@
 open Core
 open Utils
 
+(* let lines = lines_of_file "./inputs/test" *)
 let lines = lines_of_file "./inputs/day3"
 
 let first =
@@ -39,4 +40,51 @@ let first =
   |> (0 =>. fun acc var -> acc + var)
 ;;
 
-let second = List.length lines
+module TupSet = Set.Make (struct
+    type t = int * int [@@deriving sexp, compare]
+  end)
+
+(* PERF: Implement list version and compare performances *)
+let second =
+  let directions = [ 1, 0; 1, 1; 1, -1; -1, 0; -1, 1; -1, -1; 0, 1; 0, -1 ] in
+  let lines = List.to_array lines in
+  let rec get_fst_ind a = function
+    | b when b >= 0 && Char.is_digit lines.(a).[b] -> get_fst_ind a (b - 1)
+    | b -> b + 1
+  in
+  let parse_num_at a b =
+    let st = get_fst_ind a b in
+    let num = ref 0 in
+    let terminated = ref false in
+    for i = st to String.length (Array.nget lines a) - 1 do
+      if Char.is_digit lines.(a).[i] && not !terminated
+      then num := (!num * 10) + Char.to_int lines.(a).[i] - Char.to_int '0'
+      else terminated := true
+    done;
+    !num
+  in
+  lines
+  |> Array.foldi ~init:0 ~f:(fun i arr_acc line ->
+    String.foldi ~init:0 line ~f:(fun j str_acc ->
+      function
+      | ch when not @@ phys_equal ch '*' -> str_acc
+      | _ ->
+        directions
+        |> List.fold ~init:TupSet.empty ~f:(fun acc (x, y) ->
+          match i + x, j + y with
+          | a, _ when a < 0 || a >= Array.length lines -> acc
+          | _, b when b < 0 || b >= String.length line -> acc
+          | a, b ->
+            (match Char.is_digit lines.(a).[b] with
+             | true -> Set.add acc (a, b)
+             | _ -> acc))
+        |> Set.fold ~init:TupSet.empty ~f:(fun acc (a, b) ->
+          Set.add acc (a, get_fst_ind a b))
+        |> (fun set ->
+             match set with
+             | set when Set.length set = 2 ->
+               Set.fold set ~init:1 ~f:(fun acc (a, b) -> acc * parse_num_at a b)
+             | _ -> 0)
+        |> ( + ) str_acc)
+    |> ( + ) arr_acc)
+;;

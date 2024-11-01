@@ -1,3 +1,5 @@
 (library
  (name Y23)
- (libraries core fmt))
+ (libraries core fmt)
+ (preprocess
+  (pps ppx_jane)))
