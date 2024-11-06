@@ -11,8 +11,8 @@ let () =
   ; "3b"
   ; "4a"
   ; "4b"
-    (* ; "5a" *)
-    (* ; "5b" *)
+  ; "5a"
+  ; "5b"
     (* ; "6a" ; "6b" ; "7a" ; "7b" ; "8a" ; "8b" ; "9a" ; "9b" ; "10a" ; "10b" *)
     (* ; "11a" ; "11b" ; "12a" ; "12b" ; "13a" ; "13b" ; "14a" ; "14b" ; "15a" ; "15b" *)
     (* ; "16a" ; "16b" ; "17a" ; "17b" ; "18a" ; "18b" ; "19a" ; "19b" ; "20a" ; "20b" *)
@@ -28,8 +28,8 @@ let () =
             | "3b" -> Fmt.pr "@. 3b - %d" Day3.second
             | "4a" -> Fmt.pr "@. 4a - %d" Day4.first
             | "4b" -> Fmt.pr "@. 4b - %d" Day4.second
-            (* | "5a" -> Fmt.pr "@. 5a - %d" Day5.first *)
-            (* | "5b" -> Fmt.pr "@. 5b - %d" Day5.second *)
+            | "5a" -> Fmt.pr "@. 5a - %d" Day5.first
+            | "5b" -> Fmt.pr "@. 5b - %d" Day5.second
             (* | "6a" -> Fmt.pr "@. 6a - %d" Day6.first *)
             (* | "6b" -> Fmt.pr "@. 6b - %d" Day6.second *)
             (* | "7a" -> Fmt.pr "@. 7a - %d" Day7.first *)
