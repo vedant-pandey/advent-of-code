@@ -113,10 +113,10 @@ let second =
     | a :: b :: tl -> reduce_seeds_rec ~acc:({ seed_st = a; seed_en = a + b } :: acc) tl
     | _ -> raise_s [%sexp "Non even number of seeds"]
   in
-  let[@warning "-27"] _, fin_map, (seed_list : seed_tuple list) =
+  let[@warning "-27"] _, (fin_map : st_en_rng IntMap.t StringMap.t), seed_list =
     lines
     |> List.fold
-         ~init:("", (StringMap.empty : st_en_rng list StringMap.t), [])
+         ~init:("", (StringMap.empty : st_en_rng IntMap.t StringMap.t), [])
          ~f:(fun (cur_map, acc, seed_list) line ->
            match line with
            | "" -> cur_map, acc, seed_list
@@ -125,7 +125,9 @@ let second =
               | '0' .. '9' ->
                 let acc =
                   Map.update acc cur_map ~f:(fun data_opt ->
-                    Option.value ~default:[] data_opt |> List.cons @@ parse_map_line line)
+                    let { st; en; rng } = parse_map_line line in
+                    Option.value ~default:IntMap.empty data_opt
+                    |> Map.set ~key:st ~data:{ st; en; rng })
                 in
                 cur_map, acc, seed_list
               | 'a' .. 'z' when Char.to_int line.[4] = Char.to_int 's' ->
@@ -146,10 +148,41 @@ let second =
               | _ -> raise_s [%sexp "Non alphanumeric found"]))
   in
   print_s [%sexp (seed_list : seed_tuple list)];
-  let[@warning "-27"] tup_expand (seed_tup : seed_tuple) (range_map : st_en_rng list)
+  print_s [%sexp (fin_map : st_en_rng IntMap.t StringMap.t)];
+  let[@warning "-21-27-26"] tup_expand
+    { seed_st; seed_en }
+    (range_map : st_en_rng IntMap.t)
     : seed_tuple list
     =
-    raise_s [%sexp "Not implemented seed expand"]
+    let convert_src_to_dst_rng st en : seed_tuple =
+      raise_s [%sexp "Not implemented convert_src_to dst"]
+    in
+    let fin = ref { resolved = []; left = { seed_st; seed_en } } in
+    let soln : seed_tuple list ref = ref [] in
+    raise_s [%sexp "Implement 1"];
+    while !fin.left.seed_st <= !fin.left.seed_en do
+      let st_key_option = Map.closest_key range_map `Greater_or_equal_to seed_st in
+      let en_key_option = Map.closest_key range_map `Less_or_equal_to seed_en in
+      match st_key_option, en_key_option with
+      | None, None ->
+        (* Case 1 *)
+        let b = Map.closest_key range_map `Less_or_equal_to seed_st |> Option.value_exn in
+        let b_plus_r =
+          Map.closest_key range_map `Greater_or_equal_to seed_en |> Option.value_exn
+        in
+        (* soln := {resolved=(convert_src_to_dst_rng b b_plus_r)::(!soln.resolved); left = } *)
+        ()
+      | Some st, None ->
+        (* Case 2, 4 *)
+        ()
+      | None, Some en ->
+        (* Case 3,5 *)
+        ()
+      | Some st, Some en ->
+        (* Case 6 *)
+        ()
+    done;
+    !soln
   in
   [ "seed-to-soil"
   ; "soil-to-fertilizer"

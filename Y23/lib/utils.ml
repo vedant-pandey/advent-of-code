@@ -50,3 +50,5 @@ let arr_rng arr i = i >= 0 && i < Array.length arr
 let mat_rng mat i j = i >= 0 && i < Array.length mat && j >= 0 && j < Array.length mat.(i)
 let arr_get arr i ~default = if arr_rng arr i then arr.(i) else default
 let mat_get mat i j ~default = if mat_rng mat i j then mat.(i).(j) else default
+
+module IntMap = Map.Make (Int)
