@@ -20,6 +20,9 @@ RequiresClausePosition: WithFollowing
 RequiresExpressionIndentation: OuterScope
 SpaceAfterTemplateKeyword: false
 WrapNamespaceBodyWithEmptyLines: Always
+ColumnLimit: 80
+BreakBeforeBinaryOperators: All
+AlignOperands: AlignAfterOperator
 
 ---
 Language: ObjC
