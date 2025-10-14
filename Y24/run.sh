@@ -1,7 +1,7 @@
 #!/bin/sh
 
 CXX="$(brew --prefix llvm)/bin/clang++"
-CFLAGS="-Wall -Werror -std=c++17 -O3"
+CFLAGS="-Wall -Werror -std=c++20 -O3"
 PREV_DAY=$(cat .lastRun)
 
 # Function to clean up build artifacts
