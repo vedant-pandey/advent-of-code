@@ -47,6 +47,7 @@ Checks: >
   -readability-uppercase-literal-suffix,
   -readability-use-anyofallof,
   -readability-implicit-bool-conversion,
+  -readability-math-missing-parentheses
 WarningsAsErrors: ''
 HeaderFilterRegex: 'AK|Libraries|Services|Tests|Utilities'
 FormatStyle: none
