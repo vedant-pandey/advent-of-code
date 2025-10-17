@@ -148,17 +148,27 @@ __attribute((always_inline)) inline void part2(FILE* fptr) {
 
 int main() {
     FILE* fptr;
+    struct timespec start, end;
     fptr = fopen(FILE_NAME, "r");
     if (fptr == NULL) {
         printf("Error while opening file");
         return 1;
     }
     printf("Part 1 - ");
+    clock_gettime(CLOCK_MONOTONIC, &start);
     part1(fptr);
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    long elapsed_ns = (end.tv_sec - start.tv_sec) * 1000000000L + (end.tv_nsec - start.tv_nsec);
+
+    printf("\nTIME - %ld ns ", elapsed_ns);
     printf("\n");
     fseek(fptr, 0, SEEK_SET);
     printf("Part 2 - ");
+    clock_gettime(CLOCK_MONOTONIC, &start);
     part2(fptr);
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    elapsed_ns = (end.tv_sec - start.tv_sec) * 1000000000L + (end.tv_nsec - start.tv_nsec);
+    printf("\nTIME - %ld ns ", elapsed_ns);
     printf("\n");
     return 0;
 }

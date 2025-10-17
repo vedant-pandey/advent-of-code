@@ -1,8 +1,11 @@
+#include <_time.h>
 #include <stdarg.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 typedef uint8_t u8;
 typedef uint16_t u16;
@@ -14,19 +17,19 @@ typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
 
-typedef struct String {
+typedef void* any;
+
+#define INITIAL_CAPACITY 20
+
+////////////
+// String //
+////////////
+
+typedef struct {
     u32 size;
     u32 cap;
     u8* data;
 } String;
-
-typedef struct Vector {
-    u32 size;
-    u32 cap;
-    u32* data;
-} Vector;
-
-const u32 INITIAL_CAPACITY = 20;
 
 __attribute((always_inline, noreturn)) static inline void errorf(
     char const* __restrict format, ...) {
@@ -39,16 +42,24 @@ __attribute((always_inline, noreturn)) static inline void errorf(
     exit(1);
 }
 
-__attribute((always_inline)) inline String* initString() {
+__attribute((always_inline)) inline String* initStringWithCapacity(
+    u32 capacity) {
+    if (capacity == 0) {
+        errorf("Invalid capacity\n");
+    }
     String* ret = (String*)malloc(sizeof(String));
     if (ret == NULL) {
-        errorf("Unable to create new string");
+        errorf("Unable to create string with size %d\n", capacity);
     }
-    ret->cap = INITIAL_CAPACITY;
+    ret->cap = capacity;
     ret->size = 0;
-    ret->data = (u8*)malloc(INITIAL_CAPACITY * sizeof(u8));
+    ret->data = (u8*)malloc(capacity * sizeof(u8));
 
     return ret;
+}
+
+__attribute((always_inline)) inline String* initString() {
+    return initStringWithCapacity(INITIAL_CAPACITY);
 }
 
 __attribute((always_inline)) inline void increaseCapacity(String* str) {
@@ -60,8 +71,7 @@ __attribute((always_inline)) inline void increaseCapacity(String* str) {
     str->cap *= 2;
 }
 
-__attribute((always_inline)) inline void addChar(
-    String* str, u8 const ch) {
+__attribute((always_inline)) inline void addChar(String* str, u8 const ch) {
     if (str->size == str->cap) {
         increaseCapacity(str);
     }
@@ -70,7 +80,7 @@ __attribute((always_inline)) inline void addChar(
 }
 
 __attribute((always_inline)) inline void clearString(String* str) {
-    memset(str->data, 0, str->size*sizeof(u8));
+    memset(str->data, 0, str->size * sizeof(u8));
     str->size = 0;
 }
 
@@ -80,13 +90,58 @@ __attribute((always_inline)) inline void printString(String* str) {
     }
 }
 
-__attribute((always_inline)) inline Vector* initArray() {
+__attribute((always_inline)) inline void freeString(String* str) {
+    free(str->data);
+    free(str);
+}
+
+__attribute((always_inline)) inline u8 readline(FILE* fptr, String* line) {
+    i8 ch;
+
+    clearString(line);
+    while (1) {
+        ch = fgetc(fptr);
+        if (ch == '\n') {
+            break;
+        }
+        if (ch == EOF) {
+            return 0;
+        }
+        addChar(line, ch);
+    }
+
+    return 1;
+}
+
+////////////
+// VECTOR //
+////////////
+
+typedef struct {
+    u32 size;
+    u32 cap;
+    u32* data;
+} Vector;
+
+__attribute((always_inline)) inline Vector* initArrayWithCapacity(
+    int capacity) {
+    if (capacity == 0) {
+        errorf("Invalid capacity\n");
+    }
+
     Vector* ret = (Vector*)malloc(sizeof(Vector));
-    ret->cap = INITIAL_CAPACITY;
+    if (ret == NULL) {
+        errorf("Unable to create array of size %d\n", capacity);
+    }
+
+    ret->cap = capacity;
     ret->size = 0;
-    ret->data = (u32*)malloc(INITIAL_CAPACITY * sizeof(u32));
+    ret->data = (u32*)malloc(capacity * sizeof(u32));
 
     return ret;
+}
+__attribute((always_inline)) inline Vector* initArray() {
+    return initArrayWithCapacity(INITIAL_CAPACITY);
 }
 
 __attribute((always_inline)) inline void incCapacity(Vector* arr) {
@@ -107,7 +162,7 @@ __attribute((always_inline)) inline void addElem(Vector* vec, u32 const val) {
 }
 
 __attribute((always_inline)) inline void clearArr(Vector* arr) {
-    memset(arr->data, 0, arr->size*sizeof(u32));
+    memset(arr->data, 0, arr->size * sizeof(u32));
     arr->size = 0;
 }
 
@@ -115,23 +170,4 @@ __attribute((always_inline)) inline void printArr(Vector* arr) {
     for (u32 i = 0; i < arr->size; i++) {
         printf("%d ", arr->data[i]);
     }
-}
-
-__attribute((always_inline)) inline u8 readline(
-    FILE* fptr, String* line) {
-    i8 ch;
-
-    clearString(line);
-    while (1) {
-        ch = fgetc(fptr);
-        if (ch == '\n') {
-            break;
-        }
-        if (ch == EOF) {
-            return 0;
-        }
-        addChar(line, ch);
-    }
-
-    return 1;
 }

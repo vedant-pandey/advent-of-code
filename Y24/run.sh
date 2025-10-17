@@ -3,6 +3,7 @@
 CXX="$(brew --prefix llvm)/bin/clang++"
 CXX_FLAGS="-Winline -Wall -Werror -std=c++20 -O3"
 CC="$(brew --prefix llvm)/bin/clang"
+CC="zig cc"
 CC_FLAGS="-Winline -Wall -Werror -std=c2x -O3"
 PREV_DAY=$(cat .lastRun)
 
@@ -18,7 +19,7 @@ run() {
         DAY=$PREV_DAY
     fi
 
-    if [ $DAY -gt 6 ]; then
+    if [ $DAY -eq 7 ]; then
         $CC $CC_FLAGS "./day${DAY}.c" -o output
     else
         $CXX $CXX_FLAGS "./day${DAY}.cpp" -o output
@@ -49,7 +50,7 @@ assembly() {
         DAY=$PREV_DAY
     fi
 
-    if [ $DAY -gt 6 ]; then
+    if [ $DAY -eq 7 ]; then
         # $CC $CC_FLAGS -S "./day${DAY}.c" -o assembly.s
         # Generate cleaner assembly for analysis
         clang -S -O3 -march=native \
