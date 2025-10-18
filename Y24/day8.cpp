@@ -1,5 +1,4 @@
 #include "utils.h"
-#include <chrono>
 #include <unordered_set>
 
 using namespace std;
@@ -37,6 +36,8 @@ __attribute((always_inline)) inline void part1(
 __attribute((always_inline)) inline void part2(
     unordered_set<pair<u8, u8>, PairHash>& antinodes, i32 f1, i32 s1, i32 f2,
     i32 s2) {
+    antinodes.insert(pair(f1, s1));
+    antinodes.insert(pair(f2, s2));
 
     i32 df = f2 - f1;
     i32 ds = s2 - s1;
@@ -56,7 +57,22 @@ __attribute((always_inline)) inline void part2(
     }
 }
 
-u64 solve() {
+int main() {
+    ifstream inputFile(FILE_NAME);
+    if (!inputFile.is_open()) {
+        cerr << "Unable to open file" << '\n';
+        exit(EXIT_FAILURE);
+    }
+
+    string line;
+    for (u32 i = 0; i < 50; ++i) {
+        getline(inputFile, line);
+        for (u32 j = 0; j < 50; ++j) {
+            grid[i][j] = line[j];
+        }
+    }
+    inputFile.close();
+
     unordered_map<u8, vector<pair<u8, u8>>> pointMap;
     unordered_set<pair<u8, u8>, PairHash> antinodes;
     for (int i = 0; i < 50; i++) {
@@ -79,19 +95,7 @@ u64 solve() {
         }
     }
 
-    return antinodes.size();
-}
-
-u64 solve2() {
-    unordered_map<u8, vector<pair<u8, u8>>> pointMap;
-    unordered_set<pair<u8, u8>, PairHash> antinodes;
-    for (int i = 0; i < 50; i++) {
-        for (int j = 0; j < 50; j++) {
-            if (grid[i][j] == '.')
-                continue;
-            pointMap[grid[i][j]].push_back(pair(i, j));
-        }
-    }
+    cout << "Part 1 - " << antinodes.size() << '\n';
 
     for (auto const& p : pointMap) {
         for (int i = 0; i < p.second.size(); i++) {
@@ -100,62 +104,11 @@ u64 solve2() {
                 i32 s1 = p.second[i].second;
                 i32 f2 = p.second[j].first;
                 i32 s2 = p.second[j].second;
-
-                antinodes.insert(p.second[i]);
-                antinodes.insert(p.second[j]);
                 part2(antinodes, f1, s1, f2, s2);
             }
         }
     }
 
-    return antinodes.size();
-}
-
-void part1() {
-    ifstream inputFile(FILE_NAME);
-    if (!inputFile.is_open()) {
-        cerr << "Unable to open file" << '\n';
-        exit(EXIT_FAILURE);
-    }
-
-    string line;
-    for (u32 i = 0; i < 50; ++i) {
-        getline(inputFile, line);
-        for (u32 j = 0; j < 50; ++j) {
-            grid[i][j] = line[j];
-        }
-    }
-    inputFile.close();
-
-    u64 soln = solve();
-
-    cout << soln << '\n';
-}
-
-void part2() {
-    ifstream inputFile(FILE_NAME);
-    if (!inputFile.is_open()) {
-        cerr << "Unable to open file" << '\n';
-    }
-
-    string line;
-    for (u32 i = 0; i < 50; ++i) {
-        getline(inputFile, line);
-        for (u32 j = 0; j < 50; ++j) {
-            grid[i][j] = line[j];
-        }
-    }
-    inputFile.close();
-
-    u64 soln = solve2();
-
-    cout << soln << '\n';
-}
-
-int main() {
-    cout << "Part 1 - ";
-    part1();
-    cout << "Part 2 - ";
-    part2();
+    cout << "Part 2 - " << antinodes.size() << '\n';
     return EXIT_SUCCESS;
 }
