@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "utils/utils.h"
 #include <algorithm>
 #include <tuple>
 #include <vector>
@@ -150,6 +150,7 @@ int main() {
     }
     std::string line;
     std::getline(inputFile, line);
+    inputFile.close();
     root(line);
     return EXIT_SUCCESS;
 }

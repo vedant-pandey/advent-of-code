@@ -5,7 +5,6 @@ CXX_FLAGS="-Winline -Wall -Werror -std=c++23 -O3"
 CC="$(brew --prefix llvm)/bin/clang"
 CC="zig cc"
 CC_FLAGS="-Winline -Wall -Werror -std=c2x -O3"
-PREV_DAY=$(cat .lastRun)
 
 # Function to clean up build artifacts
 clean() {
@@ -41,9 +40,6 @@ run() {
 
     # Clean up
     clean
-
-    # Save last run day
-    echo "$DAY" > .lastRun
 }
 
 # Function to generate assembly
@@ -70,7 +66,6 @@ assembly() {
     fi
 
     echo "Assembly generated in assembly.s"
-    echo "$DAY" > .lastRun
 }
 
 visualize() {

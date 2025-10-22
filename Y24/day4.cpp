@@ -3,10 +3,10 @@
 #include <ostream>
 #include <string>
 
-#include "utils.h"
+#include "utils/utils.h"
 
 // 140 * 140 characters
-static char const* FILE_NAME = "/Volumes/RAM_Disk_10GB/day4.txt";
+static char const* FILE_NAME = "/Volumes/RAM_Disk_10GB/day4";
 
 __attribute((always_inline)) inline u64 solve(char grid[140][140]) {
     u64 soln = 0;

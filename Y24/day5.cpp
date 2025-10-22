@@ -2,11 +2,11 @@
 #include <unordered_set>
 #include <vector>
 
-#include "utils.h"
+#include "utils/utils.h"
 
 using namespace std;
 
-static char const* FILE_NAME = "/Volumes/RAM_Disk_10GB/day5.txt";
+static char const* FILE_NAME = "/Volumes/RAM_Disk_10GB/day5";
 
 __attribute((always_inline)) inline void addEdge(
     unordered_map<u64, unordered_set<u64>>& edges, string const& line) {

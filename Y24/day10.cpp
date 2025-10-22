@@ -1,5 +1,4 @@
-#include "utils.h"
-#include <cstring>
+#include "utils/utils.h"
 
 // 45*45
 global_var char const* FILE_NAME = "/Volumes/RAM_Disk_10GB/day10";
@@ -85,6 +84,7 @@ int main() {
             grid[i][j] = line[j] - '0';
         }
     }
+    inputFile.close();
 
     solve(grid);
 

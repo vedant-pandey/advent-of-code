@@ -3,9 +3,9 @@
 #include <ostream>
 #include <string>
 
-#include "utils.h"
+#include "utils/utils.h"
 
-static char const* FILE_NAME = "/Volumes/RAM_Disk_10GB/day3.txt";
+static char const* FILE_NAME = "/Volumes/RAM_Disk_10GB/day3";
 
 __attribute((always_inline)) inline u64 solve(std::string const line) {
     u64 f = 0, s = 0, sum = 0;

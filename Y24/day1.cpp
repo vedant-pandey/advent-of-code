@@ -1,7 +1,7 @@
-#include "utils.h"
+#include "utils/utils.h"
 
 void part1() {
-    std::ifstream inputFile("/Volumes/RAM_Disk_10GB/day1.txt");
+    std::ifstream inputFile("/Volumes/RAM_Disk_10GB/day1");
     if (!inputFile.is_open()) {
         std::cerr << "Unable to open file" << std::endl;
     }
@@ -48,7 +48,7 @@ void part1() {
 }
 
 void part2() {
-    std::ifstream inputFile("/Volumes/RAM_Disk_10GB/day1.txt");
+    std::ifstream inputFile("/Volumes/RAM_Disk_10GB/day1");
     if (!inputFile.is_open()) {
         std::cerr << "Unable to open file" << std::endl;
     }

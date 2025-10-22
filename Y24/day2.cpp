@@ -4,9 +4,9 @@
 #include <ostream>
 #include <string>
 
-#include "utils.h"
+#include "utils/utils.h"
 
-char const* FILE_NAME = "/Volumes/RAM_Disk_10GB/day2.txt";
+char const* FILE_NAME = "/Volumes/RAM_Disk_10GB/day2";
 
 __attribute((always_inline)) inline u8 isSafe(std::string line) {
     i32 num = 0;
