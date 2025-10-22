@@ -37,6 +37,8 @@ run() {
     # Run with RUN=1
     ./output
 
+    echo "\nExit code - $?"
+
     # Clean up
     clean
 

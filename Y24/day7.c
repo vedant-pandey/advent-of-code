@@ -1,6 +1,6 @@
 #include "c_utils.h"
 
-char* FILE_NAME = "/Volumes/RAM_Disk_10GB/day7";
+char* FILE_NAME = "~/RAM_DISK/day7";
 
 __attribute((always_inline)) inline u64 concatenate(u64 left, u64 right) {
     if (right == 0)

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-global_var char const* FILE_NAME = "/Volumes/RAM_Disk_10GB/day8";
+global_var char const* FILE_NAME = "~/RAM_DISK/day8";
 global_var u8 grid[50][50];
 
 __attribute((always_inline)) inline u8 isValid(int i, int j) {

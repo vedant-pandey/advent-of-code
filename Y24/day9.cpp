@@ -6,7 +6,7 @@
 // 19999 chars
 // even - used
 // odd - free
-global_var char const* FILE_NAME = "/Volumes/RAM_Disk_10GB/day9";
+global_var char const* FILE_NAME = "~/RAM_DISK/day9";
 
 __attribute((always_inline)) inline i32* initArray(
     std::string const& line, u32 size) {

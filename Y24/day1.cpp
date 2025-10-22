@@ -1,7 +1,7 @@
 #include "utils.h"
 
 void part1() {
-    std::ifstream inputFile("/Volumes/RAM_Disk_10GB/day1.txt");
+    std::ifstream inputFile("~/RAM_DISK/day1.txt");
     if (!inputFile.is_open()) {
         std::cerr << "Unable to open file" << std::endl;
     }
