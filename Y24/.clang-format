@@ -23,6 +23,7 @@ WrapNamespaceBodyWithEmptyLines: Always
 ColumnLimit: 80
 BreakBeforeBinaryOperators: All
 AlignOperands: AlignAfterOperator
+AllowShortFunctionsOnASingleLine: Inline
 
 ---
 Language: ObjC
