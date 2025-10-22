@@ -6,7 +6,7 @@
 // 19999 chars
 // even - used
 // odd - free
-global_var char const* FILE_NAME = "~/RAM_DISK/day9";
+global_var char const* FILE_NAME = "/Volumes/RAM_Disk_10GB/day9";
 
 __attribute((always_inline)) inline i32* initArray(
     std::string const& line, u32 size) {
@@ -47,7 +47,9 @@ __attribute((always_inline)) inline void cleanArr(i32* vec) {
     vec = nullptr;
 }
 
-void solve2(i32* vec, u32 size) {
+void solve2(std::string const& line, u32 size) {
+    auto* vec = initArray(line, size);
+
     std::vector<std::tuple<u32, u32, u32>> files; // {id, st, size}
     for (u32 i = 0; i < size;) {
         if (vec[i] != -1) {
@@ -74,7 +76,8 @@ void solve2(i32* vec, u32 size) {
 
         for (u32 i = 0; i < st; i++) {
             if (vec[i] == -1) {
-                freeSt = (consecutive == 0) * i;
+                if (consecutive == 0)
+                    freeSt = i;
                 consecutive++;
                 if (consecutive >= fileSize) {
                     bestPos = freeSt;
@@ -98,10 +101,13 @@ void solve2(i32* vec, u32 size) {
 
     auto soln = checksum(vec, size);
     cleanArr(vec);
-    std::cout << "Part 2 - " << soln << '\n';
+    std::cout << "Part 2 - " << soln << " | ";
 }
 
-void solve(i32* vec, u32 size) {
+void solve(std::string const& line, u32 size) {
+
+    auto* vec = initArray(line, size);
+
     u32 l = 0, r = size - 1;
     while (l < r) {
         while (vec[l] != -1)
@@ -115,7 +121,7 @@ void solve(i32* vec, u32 size) {
 
     auto soln = checksum(vec, size);
     cleanArr(vec);
-    std::cout << "Part 1 - " << soln << '\n';
+    std::cout << "Part 1 - " << soln << " | ";
 }
 
 void root(std::string line) {
@@ -127,12 +133,11 @@ void root(std::string line) {
     auto en = std::chrono::high_resolution_clock::now();
     std::cout << "Calc size - " << (en - st) << '\n';
     st = std::chrono::high_resolution_clock::now();
-    auto* vec = initArray(line, size);
-    solve(vec, size);
+    solve(line, size);
     en = std::chrono::high_resolution_clock::now();
     std::cout << "Time - " << (en - st) << '\n';
     st = std::chrono::high_resolution_clock::now();
-    solve2(vec, size);
+    solve2(line, size);
     en = std::chrono::high_resolution_clock::now();
     std::cout << "Time - " << (en - st) << '\n';
 }

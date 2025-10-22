@@ -4,7 +4,7 @@
 using namespace std;
 
 // 130 * 130
-global_var char const* FILE_NAME = "~/RAM_DISK/day6.txt";
+global_var char const* FILE_NAME = "/Volumes/RAM_Disk_10GB/day6.txt";
 global_var i8 const DIRECTIONS[4][2]
     = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
 global_var char grid[130][130] = { { 0 } };
