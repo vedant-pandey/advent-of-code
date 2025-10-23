@@ -12,8 +12,8 @@ fi
 
 # Function to clean up build artifacts
 clean() {
-    echo "skipping clean"
-    # rm -f output assembly.s
+    # echo "skipping clean"
+    rm -f output assembly.s
 }
 
 # Function to run the program
