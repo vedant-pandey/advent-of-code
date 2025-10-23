@@ -1,14 +1,19 @@
 #!/bin/sh
 
 CXX="$(brew --prefix llvm)/bin/clang++"
-CXX_FLAGS="-Winline -Wall -Werror -std=c++23 -O3"
+CXX_FLAGS="-Winline -Wall -Werror -std=c++23 -O3 -fno-omit-frame-pointer"
 CC="$(brew --prefix llvm)/bin/clang"
 CC="zig cc"
 CC_FLAGS="-Winline -Wall -Werror -std=c2x -O3"
 
+if [ -n $ITERS ]; then
+    CXX_FLAGS="$CXX_FLAGS -DITERS=$ITERS"
+fi
+
 # Function to clean up build artifacts
 clean() {
-    rm -f output assembly.s
+    echo "skipping clean"
+    # rm -f output assembly.s
 }
 
 # Function to run the program
@@ -34,6 +39,8 @@ run() {
     fi
 
     # Run with RUN=1
+    # xcrun xctrace record --template "Time Profiler" --launch ./output --output profile.trace
+
     ./output
 
     echo "\nExit code - $?"
