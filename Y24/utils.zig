@@ -4,13 +4,13 @@ const std = @import("std");
 pub const Timer = struct {
     st: std.time.Instant,
     label: [*:0]const u8,
-    pub fn end(self: @This()) void {
+    pub inline fn end(self: @This()) void {
         const en = std.time.Instant.now() catch unreachable;
         var time: f64 = @floatFromInt(en.since(self.st));
         time /= 1.0e9;
-        std.debug.print("[{s}] Time - {d:10.9}s\n", .{ self.label, time });
+        std.debug.print("{s: >20} Time - {d:10.9}s\n", .{ self.label, time });
     }
-    pub fn start(label: [*:0]const u8) Timer {
+    pub inline fn start(label: [*:0]const u8) Timer {
         return .{
             .st = std.time.Instant.now() catch unreachable,
             .label = label,
